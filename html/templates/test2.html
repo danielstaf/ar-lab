@@ -1,0 +1,63 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.2/aframe/build/aframe-ar.js"></script>
+<script src="static/reconnecting-websocket.js"></script>
+
+
+<script>
+AFRAME.registerComponent('mythreejsthing', {
+  schema: {
+    color: {
+      default: '#000'
+    },
+  },
+
+  update: function() {
+
+     
+    var group = new THREE.Group();
+ for ( var j = 0; j < 200; j ++ ) {
+   
+    var geometry = new THREE.BufferGeometry();
+    var numPoints = 1000;
+    var positions = new Float32Array( numPoints * 3 );
+    for ( var i = 0; i < numPoints; i ++ ) {
+       positions[ i * 3 ] = (i-numPoints/2) / 500.0;
+       positions[ i * 3 + 1 ] = Math.sin( i / 20 ) * 20 / 100.0;
+       positions[ i * 3 + 2 ] = 0;
+    }
+    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    object = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xff00ff } ) );
+    object.position.set( 0, 0, (j-100) / 50.0);
+    group.add(object);
+ }
+
+    this.el.setObject3D('mesh', group);
+
+    
+
+    
+    
+  },
+
+});
+</script>
+
+
+
+
+  <body style='margin : 0px; overflow: hidden;'>
+    <a-scene embedded arjs>
+   <a-marker preset="hiro">
+    <a-entity mythreejsthing="color: green;" position="0 0 0"> </a-entity>                                                            
+
+            <a-box position='1 0 1' depth="0.05" height="0.05" width="0.05" material='color: red;'></a-box>
+
+   </a-marker>
+   <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
+
+
